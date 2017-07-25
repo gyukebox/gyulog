@@ -1,0 +1,36 @@
+{{ define "mobile" }}
+<nav class="navbar navbar-default visible-xs" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a type="button" class="navbar-toggle nav-link" href="mailto:bisschoi9541@gmail.com">
+            <i class="fa fa-envelope fa-lg"></i>
+        </a>
+        <a type="button" class="navbar-toggle nav-link" href="http://github.com/gyukebox">
+            <i class="fa fa-github-alt fa-lg"></i>
+        </a>
+        <a type="button" class="navbar-toggle nav-link" href="https://www.facebook.com/gyukebox">
+            <i class="fa fa-facebook fa-lg"></i>
+        </a>
+        <!-- 링크 수정 필요할 수 있음 -->
+        <a class="navbar-brand" href="index.html">
+            <img src="https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/15135948_918161824980506_1839427576752821065_n.jpg?oh=c3e8202c897a1cfcf6069d2757d87070&oe=59FF26E0" class="img-circle" height="35" width="35" /> GyuLog
+        </a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/dbyll/">Home</a></li>
+            <li><a href="/dbyll/categories.html">Categories</a></li>
+            <li><a href="/dbyll/tags.html">Tags</a></li>
+        </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+</nav>
+{{ end }}
