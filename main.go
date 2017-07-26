@@ -3,10 +3,11 @@ package main
 import (
 	"net/http"
 	"time"
+
+	"github.com/gyukebox/gyulog/post"
 )
 
 func main() {
-
 	mux := http.DefaultServeMux
 	files := http.FileServer(http.Dir(settings.Static))
 	server := http.Server{
@@ -21,6 +22,9 @@ func main() {
 
 	//match proper handlers
 	mux.HandleFunc("/", index)
+
+	// test
+	mux.HandleFunc("/post", post.GetPost)
 
 	server.ListenAndServe()
 }
