@@ -39,6 +39,9 @@ func GetPost(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln(err)
 	}
 
+	//test
+	fmt.Println(string(data))
+
 	post := generatePost(data)
 	post.insert()
 }
@@ -48,13 +51,13 @@ func generatePost(data []byte) Post {
 	result := Post{}
 
 	// 제목 찾는 인덱스
-	startIndex := strings.Index(rendered, "<h1>")
-	endIndex := strings.Index(rendered, "</h1>") + 5
+	startIndex := strings.Index(rendered, "<h1>") + 4
+	endIndex := strings.Index(rendered, "</h1>")
 	result.Title = rendered[startIndex:endIndex]
 
 	// 요약 찾는 인덱스
-	startIndex = strings.Index(rendered, "<p>")
-	endIndex = strings.Index(rendered, "</p>") + 4
+	startIndex = strings.Index(rendered, "<p>") + 3
+	endIndex = strings.Index(rendered, "</p>")
 	result.Summary = rendered[startIndex:endIndex]
 
 	startIndex = endIndex
@@ -62,3 +65,7 @@ func generatePost(data []byte) Post {
 
 	return result
 }
+
+// 1. post 들 싹다 가져오기
+// 2. 뒤에서부터 하나씩 템플릿 만들기
+// 3. 파싱 후 템플릿 실행

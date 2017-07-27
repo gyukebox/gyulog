@@ -20,6 +20,7 @@ func init() {
 	} else {
 		fmt.Println("connected to database!")
 	}
+	// defer db.Close()
 }
 
 func (p *Post) insert() (err error) {
@@ -41,7 +42,40 @@ func (p *Post) insert() (err error) {
 	return
 }
 
-func (p *Post) getAllPosts() (err error) {
+func GetAllPosts() (posts []*Post, err error) {
 	queryString := "select * from post"
+	rows, err := db.Query(queryString)
+	if err != nil {
+		fmt.Print("At Executing Query : ")
+		fmt.Println(err)
+		log.Fatalln(err)
+		return
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var (
+			id      int
+			title   string
+			summary string
+			body    string
+			date    string
+		)
 
+		err = rows.Scan(&id, &title, &date, &summary, &body)
+		if err != nil {
+			fmt.Print("At scanning resultset : ")
+			fmt.Println(err)
+			log.Fatalln(err)
+			return
+		}
+
+		result := Post{}
+		result.Body = body
+		result.PublishedDate = date
+		result.Title = title
+		result.Summary = summary
+
+		posts = append(posts, &result)
+	}
+	return
 }

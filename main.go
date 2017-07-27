@@ -22,9 +22,7 @@ func main() {
 
 	//match proper handlers
 	mux.HandleFunc("/", index)
-
-	// test
-	mux.HandleFunc("/post", post.GetPost)
+	mux.HandleFunc("/upload", post.GetPost)
 
 	server.ListenAndServe()
 }

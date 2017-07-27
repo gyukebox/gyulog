@@ -1,8 +1,20 @@
 package main
 
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+
+	"github.com/gyukebox/gyulog/post"
+)
 
 // temporary
 func index(w http.ResponseWriter, r *http.Request) {
-	generateHTML(w, nil, "index", "layout", "mobile", "navbar", "pager", "sidebar")
+	posts, err := post.GetAllPosts()
+	if err != nil {
+		fmt.Print("At Handler : ")
+		fmt.Println(err)
+	}
+	//test
+	fmt.Println(posts)
+	generateHTML(w, posts, "index", "layout", "mobile", "navbar", "pager", "sidebar")
 }

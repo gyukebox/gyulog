@@ -2,13 +2,14 @@
 {{ range . }}
 <article class="home">
     <span class="post-date">
-        Month dd, yyyy
+        {{ .PublishedDate }}
     </span>
     <h2>
-        <a href="#">Sample</a>
+        <!-- link to generate template variable -->
+        <a href="#">{{ .Title }}</a>
     </h2>
     <div>
-        Sample placeholder post.
+        {{ .Summary }}
     </div>
 </article>
 {{ end }}
