@@ -9,23 +9,23 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var db *sql.DB
+var DB *sql.DB
 
 func init() {
 	var err error
-	db, err = sql.Open("mysql", "root:biss9541@tcp(127.0.0.1:3306)/gyulog")
+	DB, err = sql.Open("mysql", "root:biss9541@tcp(127.0.0.1:3306)/gyulog")
 	if err != nil {
 		fmt.Println(err)
 		log.Fatalln(err)
 	} else {
 		fmt.Println("connected to database!")
 	}
-	// defer db.Close()
+	// defer DB.Close()
 }
 
 func (p *Post) insert() (err error) {
 	queryString := "insert into post (title, summary, body) values (?, ?, ?)"
-	result, err := db.Exec(queryString, p.Title, p.Summary, p.Body)
+	result, err := DB.Exec(queryString, p.Title, p.Summary, p.Body)
 	if err != nil {
 		fmt.Println(err)
 		log.Fatalln(err)
@@ -44,7 +44,7 @@ func (p *Post) insert() (err error) {
 
 func GetAllPosts() (posts []*Post, err error) {
 	queryString := "select * from post"
-	rows, err := db.Query(queryString)
+	rows, err := DB.Query(queryString)
 	if err != nil {
 		fmt.Print("At Executing Query : ")
 		fmt.Println(err)
@@ -77,5 +77,29 @@ func GetAllPosts() (posts []*Post, err error) {
 
 		posts = append(posts, &result)
 	}
+	return
+}
+
+func GetPostByTitle(title string) (post Post) {
+	queryString := "select * from post where title = ?"
+	row := DB.QueryRow(queryString, title)
+
+	post = Post{}
+
+	var (
+		id        int
+		postTitle string
+		body      string
+		date      string
+		summary   string
+	)
+
+	row.Scan(&id, &postTitle, &date, &summary, &body)
+
+	post.Body = body
+	post.PublishedDate = date
+	post.Summary = summary
+	post.Title = title
+
 	return
 }

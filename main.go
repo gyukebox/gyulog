@@ -23,6 +23,7 @@ func main() {
 	//match proper handlers
 	mux.HandleFunc("/", index)
 	mux.HandleFunc("/upload", post.GetPost)
+	mux.HandleFunc("/post", postDetail)
 
 	server.ListenAndServe()
 }

@@ -36,15 +36,12 @@
         {{ template "sidebar" }}
 
         <div class="col-sm-9 col-sm-offset-3">
-            <div class="page-header">
-                <h1>GyuLog</h1>
-            </div>
 
             {{ template "content" .}}
             <hr />
 
             <!-- pager template -->
-            {{ template "pager" . }}
+            {{ template "pager" }}
 
             <div class="clearfix"></div>
 

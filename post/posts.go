@@ -39,11 +39,10 @@ func GetPost(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln(err)
 	}
 
-	//test
-	fmt.Println(string(data))
-
 	post := generatePost(data)
 	post.insert()
+
+	http.Redirect(w, r, "/", 302)
 }
 
 func generatePost(data []byte) Post {
