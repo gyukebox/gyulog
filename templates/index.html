@@ -2,18 +2,32 @@
 <div class="page-header">
     <h1>GyuLog</h1>
 </div>
+
 {{ range . }}
 <article class="home">
     <span class="post-date">
         {{ .PublishedDate }}
     </span>
     <h2>
-        <!-- link to generate template variable -->
-        <a href="/post?{{ .Title }}">{{ .Title }}</a>
+        <a href="/post?{{ .Id }}">{{ .Title }}</a>
     </h2>
     <div>
         {{ .Summary }}
     </div>
 </article>
 {{ end }}
+{{ end }}
+
+{{ define "pager" }}
+<ul class="pager">
+    <li class="previous">
+        <a href="/?{{ .Previous }}">&larr; Newer</a>
+    </li>
+    <li>
+        <span class="page_number">Page {{ .Next }}</span>
+    </li>
+    <li class="next">
+        <a href="/?{{ .Next }}">Older &rarr;</a>
+    </li>
+</ul>
 {{ end }}

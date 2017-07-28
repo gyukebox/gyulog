@@ -75,12 +75,8 @@
         </div>
 
         <div class="clearfix"></div>
-        <ul class="pager">
-            <li class="previous"><a href="/dbyll/general/demo/sample/2013/11/14/sample-2.html" title="Sample 2">&larr;
-                Previous</a></li>
-            <li class="next"><a href="/dbyll/general/setup/demo/2013/11/15/configuration.html" title="Configuration">Next
-                &rarr;</a></li>
-        </ul>
+        {{ template "pager" . }}
+
         <hr>
         <section class="comments" style="margin-top:15px;">
             <div id="disqus_thread"></div>
@@ -107,4 +103,13 @@
     </div>
     <div class="clearfix"></div>
 </article>
+{{ end }}
+
+{{ define "pager" }}
+<ul class="pager">
+    <li class="previous"><a href="/post?{{ .Previous }}">&larr;
+        Previous</a></li>
+    <li class="next"><a href="/post?{{ .Next }}" >Next
+        &rarr;</a></li>
+</ul>
 {{ end }}

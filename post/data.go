@@ -103,3 +103,11 @@ func GetPostByTitle(title string) (post Post) {
 	post.rowToPost(row)
 	return
 }
+
+func GetPostById(id int) (post Post) {
+	queryString := "select * from post where id = ?"
+	row := DB.QueryRow(queryString, id)
+	post = Post{}
+	post.rowToPost(row)
+	return
+}

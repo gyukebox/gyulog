@@ -40,14 +40,12 @@
         {{ template "sidebar" }}
 
         <div class="col-sm-9 col-sm-offset-3">
-
-            {{ template "content" .}}
+            {{ template "content" .Post }}
             <hr />
 
-            <!-- pager template -->
-            {{ template "pager" }}
-
             <div class="clearfix"></div>
+
+            {{ template "pager" . }}
 
             <footer>
                 <hr/>
@@ -55,7 +53,6 @@
                     &copy; 2017 Byeong Gyu Choi. Theme: <a href="https://github.com/dbtek/dbyll">dbyll</a> by dbtek.
                 </p>
             </footer>
-
         </div>
     <script>
         (function(i, s, o, g, r, a, m) {
