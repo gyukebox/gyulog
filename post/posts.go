@@ -12,6 +12,7 @@ import (
 
 // Post - Overall posts parsed by parts
 type Post struct {
+	Id            int
 	Title         string
 	PublishedDate string
 	Summary       string
@@ -32,20 +33,17 @@ func GetPost(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("failed to open file")
 		log.Fatalln(err)
 	}
-
 	// post 받아와서 string으로 변환
 	data, err := ioutil.ReadAll(file)
 	if err != nil {
 		log.Fatalln(err)
 	}
-
-	post := generatePost(data)
+	post := markdownToPost(data)
 	post.insert()
-
 	http.Redirect(w, r, "/", 302)
 }
 
-func generatePost(data []byte) Post {
+func markdownToPost(data []byte) Post {
 	rendered := string(blackfriday.MarkdownCommon(data))
 	result := Post{}
 
@@ -53,7 +51,6 @@ func generatePost(data []byte) Post {
 	startIndex := strings.Index(rendered, "<h1>") + 4
 	endIndex := strings.Index(rendered, "</h1>")
 	result.Title = rendered[startIndex:endIndex]
-
 	// 요약 찾는 인덱스
 	startIndex = strings.Index(rendered, "<p>") + 3
 	endIndex = strings.Index(rendered, "</p>")
@@ -61,10 +58,5 @@ func generatePost(data []byte) Post {
 
 	startIndex = endIndex
 	result.Body = rendered[startIndex:]
-
 	return result
 }
-
-// 1. post 들 싹다 가져오기
-// 2. 뒤에서부터 하나씩 템플릿 만들기
-// 3. 파싱 후 템플릿 실행

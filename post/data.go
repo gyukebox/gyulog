@@ -37,13 +37,49 @@ func (p *Post) insert() (err error) {
 		log.Fatalln(err)
 		return
 	}
-
 	fmt.Printf("%d rows affected\n", n)
 	return
 }
 
+func (p *Post) rowToPost(row *sql.Row) (err error) {
+	err = row.Scan(&p.Id, &p.Title, &p.PublishedDate, &p.Summary, &p.Body)
+	if err != nil {
+		fmt.Print("At scanning row(s) : ")
+		fmt.Println(err)
+		log.Fatalln(err)
+	}
+	return
+}
+
+func (p *Post) rowsToPost(rows *sql.Rows) (err error) {
+	err = rows.Scan(&p.Id, &p.Title, &p.PublishedDate, &p.Summary, &p.Body)
+	if err != nil {
+		fmt.Print("At scanning row(s) : ")
+		fmt.Println(err)
+		log.Fatalln(err)
+	}
+	return
+}
+
+func GetFivePosts(offset int) (posts []*Post, err error) {
+	queryString := "select * from post order by id desc limit ?, 5"
+	rows, err := DB.Query(queryString, offset*5)
+	if err != nil {
+		fmt.Print("At executing query : ")
+		fmt.Println(err)
+		log.Fatalln(err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		result := Post{}
+		result.rowsToPost(rows)
+		posts = append(posts, &result)
+	}
+	return
+}
+
 func GetAllPosts() (posts []*Post, err error) {
-	queryString := "select * from post"
+	queryString := "select * from post order by id desc"
 	rows, err := DB.Query(queryString)
 	if err != nil {
 		fmt.Print("At Executing Query : ")
@@ -53,28 +89,8 @@ func GetAllPosts() (posts []*Post, err error) {
 	}
 	defer rows.Close()
 	for rows.Next() {
-		var (
-			id      int
-			title   string
-			summary string
-			body    string
-			date    string
-		)
-
-		err = rows.Scan(&id, &title, &date, &summary, &body)
-		if err != nil {
-			fmt.Print("At scanning resultset : ")
-			fmt.Println(err)
-			log.Fatalln(err)
-			return
-		}
-
 		result := Post{}
-		result.Body = body
-		result.PublishedDate = date
-		result.Title = title
-		result.Summary = summary
-
+		result.rowsToPost(rows)
 		posts = append(posts, &result)
 	}
 	return
@@ -83,23 +99,7 @@ func GetAllPosts() (posts []*Post, err error) {
 func GetPostByTitle(title string) (post Post) {
 	queryString := "select * from post where title = ?"
 	row := DB.QueryRow(queryString, title)
-
 	post = Post{}
-
-	var (
-		id        int
-		postTitle string
-		body      string
-		date      string
-		summary   string
-	)
-
-	row.Scan(&id, &postTitle, &date, &summary, &body)
-
-	post.Body = body
-	post.PublishedDate = date
-	post.Summary = summary
-	post.Title = title
-
+	post.rowToPost(row)
 	return
 }
