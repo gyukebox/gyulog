@@ -20,25 +20,19 @@ func index(w http.ResponseWriter, r *http.Request) {
 	} else {
 		index, _ = strconv.Atoi(end)
 	}
+	posts, err := post.GetFivePosts(index)
 	if err != nil {
 		fmt.Print("At Handler, ")
 		log.Fatalln(err)
 	}
-	posts, err := post.GetFivePosts(index)
 	data := map[string]interface{}{
 		"Post":     posts,
 		"Previous": index - 1,
 		"Next":     index + 1,
+		"Limit":    (post.TotalPosts - 1) / 5,
 	}
 	generateHTML(w, data, "index", "layout", "mobile", "navbar", "sidebar")
 }
-
-// main page 에서 필요한 데이터
-// 1. post list
-// 2. index, 앞뒤 index
-
-// post page 에서 필요한 데이터
-// 1. single post info
 
 func postDetail(w http.ResponseWriter, r *http.Request) {
 	var id int
@@ -53,17 +47,19 @@ func postDetail(w http.ResponseWriter, r *http.Request) {
 			log.Fatalln(err)
 		}
 	}
-	//post := post.GetPostByTitle(title)
-	post := post.GetPostById(id)
+
+	result, _ := post.GetPostById(id)
+
 	data := map[string]interface{}{
 		"Post": map[string]interface{}{
-			"Title":         post.Title,
-			"Body":          template.HTML(post.Body),
-			"PublishedDate": post.PublishedDate,
-			"Summary":       template.HTML(post.Summary),
-			"Id":            post.Id,
-			"Previous":      post.Id - 1,
-			"Next":          post.Id + 1,
+			"Title":         result.Title,
+			"Body":          template.HTML(result.Body),
+			"PublishedDate": result.PublishedDate,
+			"Summary":       template.HTML(result.Summary),
+			"Id":            result.Id,
+			"Previous":      result.Id - 1,
+			"Next":          result.Id + 1,
+			"Total":         post.TotalPosts,
 		},
 	}
 	generateHTML(w, data, "post", "layout", "mobile", "navbar", "sidebar")

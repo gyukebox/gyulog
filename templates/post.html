@@ -107,9 +107,23 @@
 
 {{ define "pager" }}
 <ul class="pager">
-    <li class="previous"><a href="/post?{{ .Previous }}">&larr;
-        Previous</a></li>
-    <li class="next"><a href="/post?{{ .Next }}" >Next
-        &rarr;</a></li>
+    {{ if le .Previous 0 }}
+    <li class="previous disabled">
+        <a>&larr;Previous</a>
+    </li>
+    {{ else }}
+    <li class="previous">
+        <a href="/post?{{ .Previous }}">&larr;Previous</a>
+    </li>
+    {{ end }}
+    {{ if gt .Next .Total }}
+    <li class="next disabled">
+        <a>Next&rarr;</a>
+    </li>
+    {{ else }}
+    <li class="next">
+        <a href="/post?{{ .Next }}" >Next&rarr;</a>
+    </li>
+    {{ end }}
 </ul>
 {{ end }}

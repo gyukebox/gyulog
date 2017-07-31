@@ -10,33 +10,49 @@ import (
 )
 
 var DB *sql.DB
+var TotalPosts int
 
+// connect to db and get all posts at start of the server
 func init() {
+	connectDB()
+	defer DB.Close()
+	queryString := "select * from post order by id desc"
+	rows, err := DB.Query(queryString)
+	if err != nil {
+		fmt.Print("At collecting data, ")
+		log.Fatalln(err)
+	}
+	TotalPosts = 0
+	defer rows.Close()
+	for rows.Next() {
+		TotalPosts++
+	}
+}
+
+func connectDB() {
 	var err error
 	DB, err = sql.Open("mysql", "root:biss9541@tcp(127.0.0.1:3306)/gyulog")
 	if err != nil {
-		fmt.Println(err)
+		fmt.Print("At connecting DB, ")
 		log.Fatalln(err)
-	} else {
-		fmt.Println("connected to database!")
 	}
-	// defer DB.Close()
 }
 
 func (p *Post) insert() (err error) {
+	connectDB()
+	defer DB.Close()
 	queryString := "insert into post (title, summary, body) values (?, ?, ?)"
-	result, err := DB.Exec(queryString, p.Title, p.Summary, p.Body)
+	rows, err := DB.Exec(queryString, p.Title, p.Summary, p.Body)
 	if err != nil {
-		fmt.Println(err)
 		log.Fatalln(err)
 		return
 	}
-	n, err := result.RowsAffected()
+	n, err := rows.RowsAffected()
 	if err != nil {
-		fmt.Println(err)
 		log.Fatalln(err)
 		return
 	}
+	TotalPosts++
 	fmt.Printf("%d rows affected\n", n)
 	return
 }
@@ -45,7 +61,6 @@ func (p *Post) rowToPost(row *sql.Row) (err error) {
 	err = row.Scan(&p.Id, &p.Title, &p.PublishedDate, &p.Summary, &p.Body)
 	if err != nil {
 		fmt.Print("At scanning row(s) : ")
-		fmt.Println(err)
 		log.Fatalln(err)
 	}
 	return
@@ -55,37 +70,19 @@ func (p *Post) rowsToPost(rows *sql.Rows) (err error) {
 	err = rows.Scan(&p.Id, &p.Title, &p.PublishedDate, &p.Summary, &p.Body)
 	if err != nil {
 		fmt.Print("At scanning row(s) : ")
-		fmt.Println(err)
 		log.Fatalln(err)
 	}
 	return
 }
 
 func GetFivePosts(offset int) (posts []*Post, err error) {
+	connectDB()
+	defer DB.Close()
 	queryString := "select * from post order by id desc limit ?, 5"
 	rows, err := DB.Query(queryString, offset*5)
 	if err != nil {
-		fmt.Print("At executing query : ")
-		fmt.Println(err)
+		fmt.Print("At executing query, ")
 		log.Fatalln(err)
-	}
-	defer rows.Close()
-	for rows.Next() {
-		result := Post{}
-		result.rowsToPost(rows)
-		posts = append(posts, &result)
-	}
-	return
-}
-
-func GetAllPosts() (posts []*Post, err error) {
-	queryString := "select * from post order by id desc"
-	rows, err := DB.Query(queryString)
-	if err != nil {
-		fmt.Print("At Executing Query : ")
-		fmt.Println(err)
-		log.Fatalln(err)
-		return
 	}
 	defer rows.Close()
 	for rows.Next() {
@@ -97,6 +94,8 @@ func GetAllPosts() (posts []*Post, err error) {
 }
 
 func GetPostByTitle(title string) (post Post) {
+	connectDB()
+	defer DB.Close()
 	queryString := "select * from post where title = ?"
 	row := DB.QueryRow(queryString, title)
 	post = Post{}
@@ -104,10 +103,12 @@ func GetPostByTitle(title string) (post Post) {
 	return
 }
 
-func GetPostById(id int) (post Post) {
+func GetPostById(id int) (post Post, err error) {
+	connectDB()
+	defer DB.Close()
 	queryString := "select * from post where id = ?"
 	row := DB.QueryRow(queryString, id)
 	post = Post{}
-	post.rowToPost(row)
+	err = post.rowToPost(row)
 	return
 }

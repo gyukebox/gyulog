@@ -20,14 +20,26 @@
 
 {{ define "pager" }}
 <ul class="pager">
-    <li class="previous">
-        <a href="/?{{ .Previous }}">&larr; Newer</a>
+    {{ if lt .Previous 0}}
+    <li class="previous disabled">
+        <a>&larr; Newer</a>
     </li>
+    {{ else }}
+    <li class="previous">
+        <a href="/?{{ .Previous }}">&larr; Newer Posts</a>
+    </li>
+    {{ end }}
     <li>
         <span class="page_number">Page {{ .Next }}</span>
     </li>
-    <li class="next">
-        <a href="/?{{ .Next }}">Older &rarr;</a>
+    {{ if gt .Next .Limit}}
+    <li class="next disabled">
+        <a>Older &rarr;</a>
     </li>
+    {{ else }}
+    <li class="next">
+        <a href="/?{{ .Next }}">Older Posts &rarr;</a>
+    </li>
+    {{ end }}
 </ul>
 {{ end }}
