@@ -1,16 +1,35 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
         <title>포스팅 업로드</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="../../resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../resources/syntax/syntax.css" rel="stylesheet">
+        <link href="../../css/style.css" rel="stylesheet">
+
+        <!-- Disable favicon.ico request -->
+        <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     </head>
     <body>
-        <form action="/upload" method="post" enctype="multipart/form-data">
-            <div>
-                <input type="file" name="post">
-            </div>
-            <div>
-                <input type="submit" value="업로드">
-            </div>
-        </form>
+        <div class="col-sm-9 col-sm-offset-3">
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <div>
+                    <input type="file" name="post">
+                </div>
+                <div>
+                    <input type="submit" value="업로드">
+                </div>
+            </form>
+        </div>
+        <div class="clearfix"></div>
+        <footer>
+            <hr/>
+            <p>
+                &copy; 2017 Byeong Gyu Choi. Theme: <a href="https://github.com/dbtek/dbyll">dbyll</a> by dbtek.
+            </p>
+        </footer>
     </body>
 </html>

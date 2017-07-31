@@ -8,10 +8,10 @@ import (
 	"net/url"
 	"strconv"
 
+	"github.com/gyukebox/gyulog/admin"
 	"github.com/gyukebox/gyulog/post"
 )
 
-// temporary
 func index(w http.ResponseWriter, r *http.Request) {
 	var index int
 	end, err := url.QueryUnescape(r.URL.RawQuery)
@@ -63,4 +63,14 @@ func postDetail(w http.ResponseWriter, r *http.Request) {
 		"Total":    post.TotalPosts,
 	}
 	generateHTML(w, data, "post", "layout", "mobile", "navbar", "sidebar")
+}
+
+func adminPage(w http.ResponseWriter, r *http.Request) {
+	// if logged in - redirect to admin page
+	// if not - redirect to login page
+	if admin.GlobalSession.Id != "" && admin.GlobalSession.Pw != "" {
+		http.Redirect(w, r, "static/adminpage/manage.html", 302)
+	} else {
+		http.Redirect(w, r, "static/adminpage/login.html", 302)
+	}
 }

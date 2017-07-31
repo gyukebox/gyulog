@@ -14,7 +14,7 @@ var TotalPosts int
 
 // connect to db and get all posts at start of the server
 func init() {
-	connectDB()
+	ConnectDB()
 	defer DB.Close()
 	queryString := "select * from post order by id desc"
 	rows, err := DB.Query(queryString)
@@ -29,7 +29,7 @@ func init() {
 	}
 }
 
-func connectDB() {
+func ConnectDB() {
 	var err error
 	DB, err = sql.Open("mysql", "root:biss9541@tcp(127.0.0.1:3306)/gyulog")
 	if err != nil {
@@ -39,7 +39,7 @@ func connectDB() {
 }
 
 func (p *Post) insert() (err error) {
-	connectDB()
+	ConnectDB()
 	defer DB.Close()
 	queryString := "insert into post (title, summary, body) values (?, ?, ?)"
 	rows, err := DB.Exec(queryString, p.Title, p.Summary, p.Body)
@@ -76,7 +76,7 @@ func (p *Post) rowsToPost(rows *sql.Rows) (err error) {
 }
 
 func GetFivePosts(offset int) (posts []*Post, err error) {
-	connectDB()
+	ConnectDB()
 	defer DB.Close()
 	queryString := "select * from post order by id desc limit ?, 5"
 	rows, err := DB.Query(queryString, offset*5)
@@ -94,7 +94,7 @@ func GetFivePosts(offset int) (posts []*Post, err error) {
 }
 
 func GetPostByTitle(title string) (post Post) {
-	connectDB()
+	ConnectDB()
 	defer DB.Close()
 	queryString := "select * from post where title = ?"
 	row := DB.QueryRow(queryString, title)
@@ -104,7 +104,7 @@ func GetPostByTitle(title string) (post Post) {
 }
 
 func GetPostById(id int) (post Post, err error) {
-	connectDB()
+	ConnectDB()
 	defer DB.Close()
 	queryString := "select * from post where id = ?"
 	row := DB.QueryRow(queryString, id)

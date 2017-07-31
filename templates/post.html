@@ -44,7 +44,7 @@
                 </a>
             </li>
         </ul>
-        
+
         <hr>
         <div>
             <section class="share col-sm-6">
@@ -67,54 +67,59 @@
             </section>
 
             <section class="col-sm-6 author">
-                <img src="https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/15135948_918161824980506_1839427576752821065_n.jpg?oh=c3e8202c897a1cfcf6069d2757d87070&oe=59FF26E0" class="img-rounded author-image" height="80" width="80" />
+                <img src="https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/15135948_918161824980506_1839427576752821065_n.jpg?oh=c3e8202c897a1cfcf6069d2757d87070&oe=59FF26E0"
+                     class="img-rounded author-image" height="80" width="80"/>
                 <h4 class="section-title author-name">Byeong Gyu</h4>
                 <p class="author-bio">want-to-be Extreme Gopher</p>
             </section>
         </div>
-{{ end }}
+        {{ end }}
 
-{{ define "pager" }}
-<ul class="pager">
-    {{ if le .Previous 0 }}
-    <li class="previous disabled">
-        <a>&larr;Previous</a>
-    </li>
-    {{ else }}
-    <li class="previous">
-        <a href="/post?{{ .Previous }}">&larr;Previous</a>
-    </li>
-    {{ end }}
-    {{ if gt .Next .Total }}
-    <li class="next disabled">
-        <a>Next&rarr;</a>
-    </li>
-    {{ else }}
-    <li class="next">
-        <a href="/post?{{ .Next }}" >Next&rarr;</a>
-    </li>
-    {{ end }}
-</ul>
+        {{ define "pager" }}
+        <ul class="pager">
+            {{ if le .Previous 0 }}
+            <li class="previous disabled">
+                <a>&larr;Previous</a>
+            </li>
+            {{ else }}
+            <li class="previous">
+                <a href="/post?{{ .Previous }}">&larr;Previous</a>
+            </li>
+            {{ end }}
+            {{ if gt .Next .Total }}
+            <li class="next disabled">
+                <a>Next&rarr;</a>
+            </li>
+            {{ else }}
+            <li class="next">
+                <a href="/post?{{ .Next }}">Next&rarr;</a>
+            </li>
+            {{ end }}
+        </ul>
 
-<hr>
+        <hr>
         <section class="comments" style="margin-top:15px;">
             <div id="disqus_thread"></div>
-            <script type="text/javascript">
-                /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-                var disqus_shortname = 'dbyll-ghost'; // required: replace example with your forum shortname
-                if (disqus_shortname) {
-                    /* * * DON'T EDIT BELOW THIS LINE * * */
-                    (function () {
-                        var dsq = document.createElement('script');
-                        dsq.type = 'text/javascript';
-                        dsq.async = true;
-                        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                    })();
-                }
+            <script>
+                /**
+                 *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+                var disqus_config = function () {
+                    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+
+                (function () { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.src = 'https://gyuveloper-com.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
             </script>
-            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
-                Disqus.</a></noscript>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered
+                by Disqus.</a></noscript>
+
         </section>
     </div>
 

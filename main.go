@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gyukebox/gyulog/admin"
+
 	"github.com/gyukebox/gyulog/post"
 )
 
@@ -24,6 +26,8 @@ func main() {
 	mux.HandleFunc("/", index)
 	mux.HandleFunc("/upload", post.GetPost)
 	mux.HandleFunc("/post", postDetail)
+	mux.HandleFunc("/admin", adminPage)
+	mux.HandleFunc("/authenticate", admin.Authenticate)
 
 	server.ListenAndServe()
 }
