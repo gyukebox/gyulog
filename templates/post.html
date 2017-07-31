@@ -14,7 +14,6 @@
             <div class="clearfix"></div>
         </div>
 
-        <!--
         <ul class="tag_box list-unstyled list-inline">
             <li><i class="fa fa-folder-open"></i></li>
             <li><a href="/dbyll/categories.html#general-ref">
@@ -45,7 +44,7 @@
                 </a>
             </li>
         </ul>
-        -->
+        
         <hr>
         <div>
             <section class="share col-sm-6">
@@ -73,11 +72,31 @@
                 <p class="author-bio">want-to-be Extreme Gopher</p>
             </section>
         </div>
+{{ end }}
 
-        <div class="clearfix"></div>
-        {{ template "pager" . }}
+{{ define "pager" }}
+<ul class="pager">
+    {{ if le .Previous 0 }}
+    <li class="previous disabled">
+        <a>&larr;Previous</a>
+    </li>
+    {{ else }}
+    <li class="previous">
+        <a href="/post?{{ .Previous }}">&larr;Previous</a>
+    </li>
+    {{ end }}
+    {{ if gt .Next .Total }}
+    <li class="next disabled">
+        <a>Next&rarr;</a>
+    </li>
+    {{ else }}
+    <li class="next">
+        <a href="/post?{{ .Next }}" >Next&rarr;</a>
+    </li>
+    {{ end }}
+</ul>
 
-        <hr>
+<hr>
         <section class="comments" style="margin-top:15px;">
             <div id="disqus_thread"></div>
             <script type="text/javascript">
@@ -103,27 +122,4 @@
     </div>
     <div class="clearfix"></div>
 </article>
-{{ end }}
-
-{{ define "pager" }}
-<ul class="pager">
-    {{ if le .Previous 0 }}
-    <li class="previous disabled">
-        <a>&larr;Previous</a>
-    </li>
-    {{ else }}
-    <li class="previous">
-        <a href="/post?{{ .Previous }}">&larr;Previous</a>
-    </li>
-    {{ end }}
-    {{ if gt .Next .Total }}
-    <li class="next disabled">
-        <a>Next&rarr;</a>
-    </li>
-    {{ else }}
-    <li class="next">
-        <a href="/post?{{ .Next }}" >Next&rarr;</a>
-    </li>
-    {{ end }}
-</ul>
 {{ end }}

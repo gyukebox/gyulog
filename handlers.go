@@ -57,10 +57,10 @@ func postDetail(w http.ResponseWriter, r *http.Request) {
 			"PublishedDate": result.PublishedDate,
 			"Summary":       template.HTML(result.Summary),
 			"Id":            result.Id,
-			"Previous":      result.Id - 1,
-			"Next":          result.Id + 1,
-			"Total":         post.TotalPosts,
 		},
+		"Previous": result.Id - 1,
+		"Next":     result.Id + 1,
+		"Total":    post.TotalPosts,
 	}
 	generateHTML(w, data, "post", "layout", "mobile", "navbar", "sidebar")
 }

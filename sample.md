@@ -13,5 +13,11 @@ func foo(bar int) {
     fmt.Println(bar)
 }
 ```
+왜때문에 코드 신택싱이 안될까 다른 언어도 해보자
+
+```ruby
+def f:
+    return x
+```
 
 테스트가 끝났습니다 에헤라디야
