@@ -43,3 +43,9 @@ func Authenticate(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/admin", 302)
 	}
 }
+
+func Logout(w http.ResponseWriter, r *http.Request) {
+	GlobalSession.Id = ""
+	GlobalSession.Pw = ""
+	http.Redirect(w, r, "/", 302)
+}

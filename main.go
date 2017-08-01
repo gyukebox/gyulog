@@ -28,6 +28,7 @@ func main() {
 	mux.HandleFunc("/post", postDetail)
 	mux.HandleFunc("/admin", adminPage)
 	mux.HandleFunc("/authenticate", admin.Authenticate)
+	mux.HandleFunc("/logout", admin.Logout)
 
 	server.ListenAndServe()
 }
