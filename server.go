@@ -31,7 +31,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 		"Next":     index + 1,
 		"Limit":    (post.TotalPosts - 1) / 5,
 	}
-	generateHTML(w, data, "index", "layout", "mobile", "navbar", "sidebar")
+	generateHTML(w, data, "index", "layout", "navbar")
 }
 
 func postDetail(w http.ResponseWriter, r *http.Request) {
@@ -62,7 +62,7 @@ func postDetail(w http.ResponseWriter, r *http.Request) {
 		"Next":     result.Id + 1,
 		"Total":    post.TotalPosts,
 	}
-	generateHTML(w, data, "post", "layout", "mobile", "navbar", "sidebar")
+	generateHTML(w, data, "post", "layout", "navbar")
 }
 
 func adminPage(w http.ResponseWriter, r *http.Request) {

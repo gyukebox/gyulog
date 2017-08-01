@@ -20,25 +20,16 @@ func Authenticate(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	var id, pw string
 
-	//test
-	fmt.Println(r.Form)
-
 	post.ConnectDB()
 	defer post.DB.Close()
 	rows, err := post.DB.Query("select * from admin")
+	defer rows.Close()
 	if err != nil {
 		fmt.Print("At getting admin info, ")
 		log.Fatalln(err)
 	}
-
 	rows.Next()
 	rows.Scan(&id, &pw)
-
-	//test
-	fmt.Println(id)
-	fmt.Println(pw)
-	fmt.Println(r.FormValue("id"))
-	fmt.Println(r.FormValue("pw"))
 
 	if id != r.FormValue("id") || pw != r.FormValue("pw") {
 		// login fail
