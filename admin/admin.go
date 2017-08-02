@@ -31,7 +31,18 @@ func Authenticate(w http.ResponseWriter, r *http.Request) {
 	rows.Next()
 	rows.Scan(&id, &pw)
 
-	if id != r.FormValue("id") || pw != r.FormValue("pw") {
+	idResult, err := base64.URLEncoding.DecodeString(id)
+	if err != nil {
+		log.Print("At decoding, ")
+		log.Fatalln(err)
+	}
+	pwResult, err := base64.URLEncoding.DecodeString(pw)
+	if err != nil {
+		log.Print("At decoding, ")
+		log.Fatalln(err)
+	}
+
+	if string(idResult) != r.FormValue("id") || string(pwResult) != r.FormValue("pw") {
 		// login fail
 		fmt.Println("Error : Incorrect ID or Password")
 		http.Redirect(w, r, "../static/adminpage/login.html", 302)
