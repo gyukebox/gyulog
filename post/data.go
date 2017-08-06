@@ -30,7 +30,7 @@ func init() {
 
 func ConnectDB() {
 	var err error
-	DB, err = sql.Open("mysql", "choib24:biss9541@tcp(mysql-gyulog.czpzg1gzwi2f.us-east-1.rds.amazonaws.com:3306)/gyulog")
+	DB, err = sql.Open("mysql", "user:pw@tcp(127.0.0.1:3306)/gyulog")
 	if err != nil {
 		fmt.Print("At connecting DB, ")
 		log.Fatalln(err)
