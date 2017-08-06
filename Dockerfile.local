@@ -1,3 +1,11 @@
-FROM golang:onbuild
+FROM golang:1.8
+ENV GOPATH /Users/gyukebox/Golang
+ENV PATH /Users/gyukebox/Golang/bin:$PATH
 
+ADD . /Users/gyukebox/Golang/src/github.com/gyukebox/gyulog
+WORKDIR /Users/gyukebox/Golang/src/github.com/gyukebox/gyulog
+RUN go get github.com/go-sql-driver/mysql
+RUN go get github.com/gyukebox/gyulog
+
+ENTRYPOINT /Users/gyukebox/Golang/bin/gyulog
 EXPOSE 8080
