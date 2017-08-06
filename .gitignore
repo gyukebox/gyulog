@@ -5,3 +5,4 @@ static/ico/*
 static/resources/*
 *.log
 .DS_Store
+Dockerfile

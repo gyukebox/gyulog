@@ -19,9 +19,6 @@ var GlobalSession Session
 func Authenticate(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	var id, pw string
-
-	post.ConnectDB()
-	defer post.DB.Close()
 	rows, err := post.DB.Query("select * from admin")
 	defer rows.Close()
 	if err != nil {

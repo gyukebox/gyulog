@@ -10,6 +10,8 @@ import (
 )
 
 func main() {
+	defer post.DB.Close()
+
 	mux := http.DefaultServeMux
 	files := http.FileServer(http.Dir(settings.Static))
 	server := http.Server{

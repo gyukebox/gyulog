@@ -15,7 +15,6 @@ var TotalPosts int
 // connect to db and get all posts at start of the server
 func init() {
 	ConnectDB()
-	defer DB.Close()
 	queryString := "select * from post order by id desc"
 	rows, err := DB.Query(queryString)
 	if err != nil {
@@ -39,8 +38,6 @@ func ConnectDB() {
 }
 
 func (p *Post) insert() (err error) {
-	ConnectDB()
-	defer DB.Close()
 	queryString := "insert into post (title, summary, body) values (?, ?, ?)"
 	rows, err := DB.Exec(queryString, p.Title, p.Summary, p.Body)
 	if err != nil {
@@ -76,8 +73,6 @@ func (p *Post) rowsToPost(rows *sql.Rows) (err error) {
 }
 
 func GetFivePosts(offset int) (posts []*Post, err error) {
-	ConnectDB()
-	defer DB.Close()
 	queryString := "select * from post order by id desc limit ?, 5"
 	rows, err := DB.Query(queryString, offset*5)
 	if err != nil {
@@ -94,8 +89,6 @@ func GetFivePosts(offset int) (posts []*Post, err error) {
 }
 
 func GetPostByTitle(title string) (post Post) {
-	ConnectDB()
-	defer DB.Close()
 	queryString := "select * from post where title = ?"
 	row := DB.QueryRow(queryString, title)
 	post = Post{}
@@ -104,8 +97,6 @@ func GetPostByTitle(title string) (post Post) {
 }
 
 func GetPostById(id int) (post Post, err error) {
-	ConnectDB()
-	defer DB.Close()
 	queryString := "select * from post where id = ?"
 	row := DB.QueryRow(queryString, id)
 	post = Post{}
