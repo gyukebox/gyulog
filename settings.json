@@ -1,5 +1,5 @@
 {
-  "Address"        : "127.0.0.1:5000",
+  "Address"        : "172.31.12.72:8080",
   "ReadTimeout"    : 10,
   "WriteTimeout"   : 600,
   "Static"         : "./static"
