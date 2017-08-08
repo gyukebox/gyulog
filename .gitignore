@@ -1,6 +1,4 @@
 .idea/*
-main
-gyulog
 static/ico/*
 *.log
 .DS_Store
