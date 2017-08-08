@@ -13,12 +13,12 @@ func main() {
 	defer post.DB.Close()
 
 	mux := http.DefaultServeMux
-	files := http.FileServer(http.Dir(settings.Static))
+	files := http.FileServer(http.Dir("./static"))
 	server := http.Server{
-		Addr:         settings.Address,
+		Addr:         "172.31.12.72:8080",
 		Handler:      mux,
-		ReadTimeout:  time.Duration(settings.ReadTimeout * int64(time.Second)),
-		WriteTimeout: time.Duration(settings.WriteTimeout * int64(time.Second)),
+		ReadTimeout:  time.Duration(10 * int64(time.Second)),
+		WriteTimeout: time.Duration(600 * int64(time.Second)),
 	}
 
 	//add handler for serving static files
