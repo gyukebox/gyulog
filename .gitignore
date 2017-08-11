@@ -2,3 +2,4 @@
 static/ico/*
 *.log
 .DS_Store
+bin/application

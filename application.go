@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/gyukebox/gyulog/admin"
 
@@ -110,8 +111,10 @@ func main() {
 	mux := http.DefaultServeMux
 	files := http.FileServer(http.Dir("./static"))
 	server := http.Server{
-		Addr:    "127.0.0.1:5000",
-		Handler: mux,
+		Addr:         "127.0.0.1:5000",
+		Handler:      mux,
+		ReadTimeout:  time.Duration(20 * int64(time.Second)),
+		WriteTimeout: time.Duration(1200 * int64(time.Second)),
 	}
 
 	//add handler for serving static files
