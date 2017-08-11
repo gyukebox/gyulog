@@ -46,13 +46,18 @@ func index(w http.ResponseWriter, r *http.Request) {
 	var index int
 	end, err := url.QueryUnescape(r.URL.RawQuery)
 	if err != nil {
+		log.Fatalln(err)
 		index = 0
 	} else {
-		index, _ = strconv.Atoi(end)
+		index, err = strconv.Atoi(end)
+		if err != nil {
+			log.Fatalln(err)
+			index = 0
+		}
 	}
 	posts, err := post.GetFivePosts(index)
 	if err != nil {
-		fmt.Print("At Handler, ")
+		log.Print("At Handler, ")
 		log.Fatalln(err)
 	}
 	data := map[string]interface{}{
@@ -78,7 +83,10 @@ func postDetail(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	result, _ := post.GetPostById(id)
+	result, err := post.GetPostById(id)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	data := map[string]interface{}{
 		"Post": map[string]interface{}{
