@@ -110,7 +110,7 @@ func main() {
 	mux := http.DefaultServeMux
 	files := http.FileServer(http.Dir("./static"))
 	server := http.Server{
-		Addr:    "127.0.0.1:8080",
+		Addr:    "127.0.0.1:5000",
 		Handler: mux,
 	}
 
