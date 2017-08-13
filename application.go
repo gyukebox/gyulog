@@ -46,12 +46,10 @@ func index(w http.ResponseWriter, r *http.Request) {
 	var index int
 	end, err := url.QueryUnescape(r.URL.RawQuery)
 	if err != nil {
-		log.Fatalln(err)
 		index = 0
 	} else {
 		index, err = strconv.Atoi(end)
 		if err != nil {
-			log.Fatalln(err)
 			index = 0
 		}
 	}
