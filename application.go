@@ -140,7 +140,6 @@ func main() {
 	if !isSpecified {
 		log.Println("Port number not specified. Setting port to 5000...")
 		port = "5000"
-		os.Setenv("PORT", port)
 	}
 
 	log.Printf("Listening on port %s...\n", port)
