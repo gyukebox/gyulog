@@ -134,5 +134,12 @@ func main() {
 	mux.HandleFunc("/authenticate", admin.Authenticate)
 	mux.HandleFunc("/logout", admin.Logout)
 
+	port, isSpecified := os.LookupEnv("PORT")
+	if !isSpecified {
+		log.Println("Port number not specified. Setting port to 5000...")
+		port = "5000"
+		os.Setenv("PORT", port)
+	}
+	log.Printf("Listening on port %s\n...", port)
 	server.ListenAndServe()
 }
