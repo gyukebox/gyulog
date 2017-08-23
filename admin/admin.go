@@ -2,7 +2,6 @@ package admin
 
 import (
 	"encoding/base64"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -22,7 +21,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request) {
 	rows, err := post.DB.Query("select * from admin")
 	defer rows.Close()
 	if err != nil {
-		fmt.Print("At getting admin info, ")
+		log.Println("Executing function post.DB.Query() while executing Authenticate() in admin.go...")
 		log.Fatalln(err)
 	}
 	rows.Next()
@@ -30,18 +29,18 @@ func Authenticate(w http.ResponseWriter, r *http.Request) {
 
 	idResult, err := base64.URLEncoding.DecodeString(id)
 	if err != nil {
-		log.Print("At decoding, ")
+		log.Println("Executing function base64.URLEncoding.DecodeString() while executing Authenticate() in admin.go...")
 		log.Fatalln(err)
 	}
 	pwResult, err := base64.URLEncoding.DecodeString(pw)
 	if err != nil {
-		log.Print("At decoding, ")
+		log.Println("Executing function base64.URLEncoding.DecodeString() while executing Authenticate() in admin.go...")
 		log.Fatalln(err)
 	}
 
 	if string(idResult) != r.FormValue("id") || string(pwResult) != r.FormValue("pw") {
 		// login fail
-		fmt.Println("Error : Incorrect ID or Password")
+		log.Println("Error : Incorrect ID or Password")
 		http.Redirect(w, r, "../static/adminpage/login.html", 302)
 	} else {
 		// session store

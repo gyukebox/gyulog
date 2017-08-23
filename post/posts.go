@@ -1,7 +1,6 @@
 package post
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -26,20 +25,33 @@ type Post struct {
 
 func GetPost(w http.ResponseWriter, r *http.Request) {
 	// 업로드된 파일 받아오기
-	r.ParseMultipartForm(1024)
+	err := r.ParseMultipartForm(1024)
+	if err != nil {
+		log.Println("Executing function r.ParseMultipartForm() while executing function GetPost() in posts.go...")
+		log.Fatalln(err)
+	}
+
 	fileHeader := r.MultipartForm.File["post"][0]
 	file, err := fileHeader.Open()
 	if err != nil {
-		fmt.Println("failed to open file")
+		log.Println("Executing function fileHeader.Open() while executing function GetPost() in posts.go...")
 		log.Fatalln(err)
 	}
+
 	// post 받아와서 string으로 변환
 	data, err := ioutil.ReadAll(file)
 	if err != nil {
+		log.Println("Executing function ioutil.ReadAll() while executing function GetPost() in posts.go...")
 		log.Fatalln(err)
 	}
+
 	post := markdownToPost(data)
-	post.insert()
+	err = post.insert()
+	if err != nil {
+		log.Println("Executing function post.Insert() while executing GetPost() in posts.go...")
+		log.Fatalln(err)
+	}
+
 	http.Redirect(w, r, "/", 302)
 }
 
@@ -51,6 +63,7 @@ func markdownToPost(data []byte) Post {
 	startIndex := strings.Index(rendered, "<h1>") + 4
 	endIndex := strings.Index(rendered, "</h1>")
 	result.Title = rendered[startIndex:endIndex]
+
 	// 요약 찾는 인덱스
 	startIndex = strings.Index(rendered, "<p>") + 3
 	endIndex = strings.Index(rendered, "</p>")

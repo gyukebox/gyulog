@@ -28,8 +28,10 @@ var logger *log.Logger
 func init() {
 	file, err := os.OpenFile("gyulog.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
 	if err != nil {
+		log.Println("Executing function os.OpenFile() while executing function init() in application.go...")
 		log.Fatalln(err)
 	}
+
 	logger = log.New(file, "INFO ", log.Ldate|log.Ltime|log.Lshortfile)
 }
 
@@ -38,12 +40,14 @@ func generateHTML(w http.ResponseWriter, data interface{}, filenames ...string) 
 	for _, fname := range filenames {
 		files = append(files, fmt.Sprintf("templates/%s.html", fname))
 	}
+
 	templates := template.Must(template.ParseFiles(files...))
 	templates.ExecuteTemplate(w, "layout", data)
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
 	var index int
+
 	end, err := url.QueryUnescape(r.URL.RawQuery)
 	if err != nil {
 		index = 0
@@ -53,17 +57,20 @@ func index(w http.ResponseWriter, r *http.Request) {
 			index = 0
 		}
 	}
+
 	posts, err := post.GetFivePosts(index)
 	if err != nil {
-		log.Print("At Handler, ")
+		log.Println("Executing function post.GetFivePosts() while executing function index() in application.go...")
 		log.Fatalln(err)
 	}
+
 	data := map[string]interface{}{
 		"Post":     posts,
 		"Previous": index - 1,
 		"Next":     index + 1,
 		"Limit":    (post.TotalPosts - 1) / 5,
 	}
+
 	generateHTML(w, data, "index", "layout", "navbar")
 }
 
@@ -71,18 +78,19 @@ func postDetail(w http.ResponseWriter, r *http.Request) {
 	var id int
 	query, err := url.QueryUnescape(r.URL.RawQuery)
 	if err != nil {
-		fmt.Print("At parsing url, ")
+		log.Println("Executing function url.QueryUnescape() while executing function postDetail() in application.go...")
 		log.Fatalln(err)
 	} else {
 		id, err = strconv.Atoi(query)
 		if err != nil {
-			fmt.Print("At dealing with query, ")
+			log.Println("Executing function strconv.Atoi() while executing function postDetail() in application.go...")
 			log.Fatalln(err)
 		}
 	}
 
 	result, err := post.GetPostById(id)
 	if err != nil {
+		log.Println("Executing function post.GetPostById() while executing function postDetail() in application.go...")
 		log.Fatalln(err)
 	}
 
@@ -98,6 +106,7 @@ func postDetail(w http.ResponseWriter, r *http.Request) {
 		"Next":     result.Id + 1,
 		"Total":    post.TotalPosts,
 	}
+
 	generateHTML(w, data, "post", "layout", "navbar")
 }
 
@@ -123,10 +132,10 @@ func main() {
 		WriteTimeout: time.Duration(1200 * int64(time.Second)),
 	}
 
-	//add handler for serving static files
+	// add handler for serving static files
 	mux.Handle("/static/", http.StripPrefix("/static/", files))
 
-	//match proper handlers
+	// match proper handlers
 	mux.HandleFunc("/", index)
 	mux.HandleFunc("/upload", post.GetPost)
 	mux.HandleFunc("/post", postDetail)
@@ -140,6 +149,11 @@ func main() {
 		port = "5000"
 		os.Setenv("PORT", port)
 	}
+
 	log.Printf("Listening on port %s...\n", port)
-	server.ListenAndServe()
+	err := server.ListenAndServe()
+	if err != nil {
+		log.Println("Executing function server.ListenAndServe() while executing function main() in application.go...")
+		log.Fatalln(err)
+	}
 }
