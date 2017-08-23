@@ -8,7 +8,6 @@ import (
 	"net/url"
 	"os"
 	"strconv"
-	"time"
 
 	"github.com/gyukebox/gyulog/admin"
 
@@ -125,12 +124,6 @@ func main() {
 
 	mux := http.DefaultServeMux
 	files := http.FileServer(http.Dir("./static"))
-	server := http.Server{
-		Addr:         "127.0.0.1:5000",
-		Handler:      mux,
-		ReadTimeout:  time.Duration(20 * int64(time.Second)),
-		WriteTimeout: time.Duration(1200 * int64(time.Second)),
-	}
 
 	// add handler for serving static files
 	mux.Handle("/static/", http.StripPrefix("/static/", files))
@@ -151,7 +144,7 @@ func main() {
 	}
 
 	log.Printf("Listening on port %s...\n", port)
-	err := server.ListenAndServe()
+	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		log.Println("Executing function server.ListenAndServe() while executing function main() in application.go...")
 		log.Fatalln(err)
