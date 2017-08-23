@@ -32,7 +32,7 @@ func init() {
 
 func ConnectDB() {
 	var err error
-	DB, err = sql.Open("mysql", "gyulogadmin:gyuveloperbiss9541@tcp(gyulog.cxx5kabwwfnk.ap-northeast-2.rds.amazonaws.com:3306)/gyulog")
+	DB, err = sql.Open("mysql", "username:password@tcp(dbaddress:port)/dbname")
 	if err != nil {
 		log.Println("Executing function sql.Open() while executing ConnectDB() at data.go...")
 		log.Fatalln(err)
