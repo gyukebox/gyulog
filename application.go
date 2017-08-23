@@ -140,6 +140,6 @@ func main() {
 		port = "5000"
 		os.Setenv("PORT", port)
 	}
-	log.Printf("Listening on port %s\n...", port)
+	log.Printf("Listening on port %s...\n", port)
 	server.ListenAndServe()
 }
