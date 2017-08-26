@@ -136,6 +136,10 @@ func main() {
 	mux.HandleFunc("/authenticate", admin.Authenticate)
 	mux.HandleFunc("/logout", admin.Logout)
 
+	mux.HandleFunc("/404", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "templates/404.html", 302)
+	})
+
 	port, isSpecified := os.LookupEnv("PORT")
 	if !isSpecified {
 		log.Println("Port number not specified. Setting port to 5000...")
@@ -143,7 +147,7 @@ func main() {
 	}
 
 	log.Printf("Listening on port %s...\n", port)
-	err := http.ListenAndServe(":"+port, nil)
+	err := http.ListenAndServe(":"+port, mux)
 	if err != nil {
 		log.Println("Executing function server.ListenAndServe() while executing function main() in application.go...")
 		log.Fatalln(err)
