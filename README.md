@@ -1,6 +1,6 @@
 # GyuLog 
 
-[![Build Status](https://travis-ci.org/{ORG-or-USERNAME}/{REPO-NAME}.png?branch=master)](https://travis-ci.org/{ORG-or-USERNAME}/{REPO-NAME})
+[![Build Status](https://travis-ci.org/{gyukebox}/{gyulog}.png?branch=master)](https://travis-ci.org/{gyukebox}/{gyulog})
 
 
 Source code of [my site](http://www.gyuveloper.com)
